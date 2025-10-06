@@ -1,0 +1,31 @@
+# Database Schema Design
+
+## Tables
+
+### Patient
+- id (PK, UUID)
+- name (VARCHAR)
+- age (INT)
+- gender (VARCHAR)
+- phone (VARCHAR)
+- address (VARCHAR)
+
+### Doctor
+- id (PK, UUID)
+- name (VARCHAR)
+- specialization (VARCHAR)
+- phone (VARCHAR)
+
+### Appointment
+- id (PK, UUID)
+- patient_id (FK → Patient.id)
+- doctor_id (FK → Doctor.id)
+- appointment_date (TIMESTAMP)
+- notes (TEXT)
+
+### Prescription
+- id (PK, UUID)
+- appointment_id (FK → Appointment.id)
+- medication (VARCHAR)
+- dosage (VARCHAR)
+- instructions (TEXT)
