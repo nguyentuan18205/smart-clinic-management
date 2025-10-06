@@ -1,0 +1,45 @@
+package com.project.backend.controllers;
+
+import com.project.backend.models.Doctor;
+import com.project.backend.repositories.DoctorRepository;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/doctors")
+public class DoctorController {
+
+    private final DoctorRepository doctorRepository;
+
+    public DoctorController(DoctorRepository doctorRepository) {
+        this.doctorRepository = doctorRepository;
+    }
+
+    @GetMapping
+    public List<Doctor> getAllDoctors() {
+        return doctorRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Doctor getDoctorById(@PathVariable UUID id) {
+        return doctorRepository.findById(id).orElse(null);
+    }
+
+    @PostMapping
+    public Doctor createDoctor(@RequestBody Doctor doctor) {
+        return doctorRepository.save(doctor);
+    }
+
+    @PutMapping("/{id}")
+    public Doctor updateDoctor(@PathVariable UUID id, @RequestBody Doctor doctor) {
+        doctor.setId(id);
+        return doctorRepository.save(doctor);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteDoctor(@PathVariable UUID id) {
+        doctorRepository.deleteById(id);
+    }
+}
