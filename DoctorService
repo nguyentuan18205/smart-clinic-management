@@ -1,0 +1,53 @@
+package com.project.backend.services;
+
+import com.project.backend.models.Doctor;
+import com.project.backend.repositories.DoctorRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class DoctorService {
+
+    private final DoctorRepository doctorRepository;
+
+    public DoctorService(DoctorRepository doctorRepository) {
+        this.doctorRepository = doctorRepository;
+    }
+
+    // Lấy danh sách tất cả bác sĩ
+    public List<Doctor> getAllDoctors() {
+        return doctorRepository.findAll();
+    }
+
+    // Lấy thông tin bác sĩ theo ID
+    public Optional<Doctor> getDoctorById(Long id) {
+        return doctorRepository.findById(id);
+    }
+
+    // Thêm bác sĩ mới
+    public Doctor createDoctor(Doctor doctor) {
+        return doctorRepository.save(doctor);
+    }
+
+    // Cập nhật thông tin bác sĩ
+    public Optional<Doctor> updateDoctor(Long id, Doctor doctorDetails) {
+        return doctorRepository.findById(id).map(doctor -> {
+            doctor.setName(doctorDetails.getName());
+            doctor.setSpecialty(doctorDetails.getSpecialty());
+            doctor.setEmail(doctorDetails.getEmail());
+            doctor.setPhone(doctorDetails.getPhone());
+            return doctorRepository.save(doctor);
+        });
+    }
+
+    // Xóa bác sĩ
+    public boolean deleteDoctor(Long id) {
+        if (doctorRepository.existsById(id)) {
+            doctorRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+}
